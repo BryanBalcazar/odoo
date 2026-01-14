@@ -1,0 +1,71 @@
+<odoo>
+    <record id="view_riwiscrum_list" model="ir.ui.view">
+        <field name="name">riwiscrum.list</field>
+        <field name="model">riwiscrum</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="required_by"/>
+                <field name="accepted_by"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_riwiscrum_form" model="ir.ui.view">
+        <field name="name">riwiscrum.form</field>
+        <field name="model">riwiscrum</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="status" widget="statusbar"/>
+                    <button name='review' confirm="¿Desea cambiar el estado a review?" string="Review" type="object" class="oe_highlight" invisible="status == 'review' or status in ['accepted','refused','cancel']"/>
+                    <button name='draft' confirm="¿Desea cambiar el estado a borrador?" string="Borrador" type="object" class="oe_highlight" invisible="status == 'draft' or status in ['accepted','refused','cancel']"/>
+                    <button name='running' confirm="¿Desea cambiar el estado a ejecución?" string="En ejecución" type="object" class="oe_highlight" invisible="status == 'running' or status in ['accepted','refused','cancel']"/>
+                    <button name='paused' confirm="¿Desea cambiar el estado a pausa?" string="Pausado" type="object" class="oe_highlight" invisible="status == 'paused' or status in ['accepted','refused','cancel']"/>
+                    <button name='accepted' confirm="¿Desea cambiar el estado a aceptado?" string="Aceptado" type="object" class="oe_highlight" invisible="status == 'accepted' or status in ['accepted','refused','cancel']"/>
+                    <button name='refused' confirm="¿Desea cambiar el estado a rechazado?" string="Rechazado" type="object" class="oe_highlight" invisible="status == 'refused' or status in ['accepted','refused','cancel']"/>
+                    <button name='cancel' confirm="¿Desea cambiar el estado a cancelado?" string="Cancelado" type="object" class="oe_highlight" invisible="status == 'cancel' or status in ['accepted','refused','cancel']"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                    </group>
+                    <group>
+                        <field name="required_by"/>
+                        <field name="accepted_by"/>
+                        <field name="active"/>
+                    </group>
+                    <notebook>
+                        <page name="tarea" string="Tareas">
+
+                        </page>
+                        <page name="seguimiento" string="Seguimiento">
+                            <group>
+                                <group>
+                                    <field name="fecha_review"/>
+                                    <field name="fecha_running"/>
+                                    <field name="fecha_paused"/>
+                                </group>
+                                <group>
+                                    <field name="fecha_accepted"/>
+                                    <field name="fecha_refused"/>
+                                    <field name="fecha_cancel"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_riwiscrum" model="ir.actions.act_window">
+        <field name="name">Riwiscrum</field>
+        <field name="res_model">riwiscrum</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="menu_riwiscrum_root" name="Riwiscrum" sequence="10"/>
+    <menuitem id="menu_riwiscrum_main" name="Registros" parent="menu_riwiscrum_root" action="action_riwiscrum" sequence="10"/>
+</odoo>
