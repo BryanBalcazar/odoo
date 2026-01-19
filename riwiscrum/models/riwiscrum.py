@@ -3,9 +3,17 @@ from odoo.exceptions import UserError
 
 class Riwiscrum(models.Model):
     _name = 'riwiscrum'
-    _description = 'riwiscrum'
+    _description = 'Registro principal de riwiscrum'
 
     name = fields.Char(string='Nombre', required=True)
+    
+    # Nuevos campos solicitados
+    responsible_id = fields.Many2one("res.users", string="Responsable", required=True)
+    required_by = fields.Many2one("res.users", string="Solicitado por")
+    accepted_by = fields.Many2one("res.users", string="Aceptado por")
+    
+    # El campo create_date lo crea Odoo solo, pero lo definimos para verlo
+    create_date = fields.Datetime(string='Fecha de Creación', readonly=True)
 
     status = fields.Selection(
         [
@@ -23,9 +31,10 @@ class Riwiscrum(models.Model):
         readonly=True,
         default="draft"
     )
+    
+    # Relación Maestro-Detalle con el nuevo archivo
+    line_ids = fields.One2many('riwi.line', 'riwi_id', string='Tareas Asignadas')
 
-    required_by = fields.Many2one("res.users",string="Solicitado por", required=False)
-    accepted_by = fields.Many2one("res.users",string="Aceptado por", required=False)
     active = fields.Boolean(string='Activo', default=True)
 
     fecha_review = fields.Datetime("Fecha a review", readonly=True)

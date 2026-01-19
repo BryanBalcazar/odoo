@@ -28,9 +28,15 @@
                     <button name='cancel' confirm="¿Desea cambiar el estado a cancelado?" string="Cancelado" type="object" class="oe_highlight" invisible="status == 'cancel' or status in ['accepted','refused','cancel']"/>
                 </header>
                 <sheet>
-                    <group>
-                        <field name="name"/>
-                    </group>
+                    <widget name="web_ribbon" title="ACEPTADO" bg_color="text-bg-success" invisible="status != 'accepted'"/>
+                    <widget name="web_ribbon" title="RECHAZADO" bg_color="text-bg-danger" invisible="status != 'refused'"/>
+                    <widget name="web_ribbon" title="CANCELADO" bg_color="text-bg-danger" invisible="status != 'cancel'"/>
+
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Nombre del Proyecto..."/>
+                        </h1>
+                    </div>
                     <group>
                         <field name="required_by"/>
                         <field name="accepted_by"/>
@@ -38,7 +44,17 @@
                     </group>
                     <notebook>
                         <page name="tarea" string="Tareas">
-
+                        <field name="line_ids">
+                            <list editable="bottom">
+                                <field name="tipo_tarea" />
+                                <field name="asignado_a_ids" widget="many2many_tags" />
+                                <field name="fecha_inicio" />
+                                <field name="fecha_fin" />
+                                <field name="prioridad" widget="priority" />
+                                <field name="tiempo_estimado" widget="float_time" />
+                                <field name="status" optional="show" />
+                            </list>
+                        </field>
                         </page>
                         <page name="seguimiento" string="Seguimiento">
                             <group>
